@@ -1,0 +1,59 @@
+[project]
+name = "capstone-backend"
+version = "0.1.0"
+description = "FastAPI starter for SE capstone"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "pydantic>=2",
+  "pydantic-settings",
+  "sqlalchemy>=2",
+  "alembic",
+  "psycopg[binary]",
+  "httpx",
+  "python-jose",
+  "passlib[bcrypt]",
+  "structlog",
+  "redis",
+  "pydantic[email]", 
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-asyncio",
+  "pytest-cov",
+  "asgi-lifespan",
+  "testcontainers-postgres",
+  "testcontainers-redis",
+  "ruff",
+  "pyright",
+  "pre-commit",
+  "nox",
+  "pydantic[email]",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q --disable-warnings -m 'not docker'"
+testpaths = ["tests"]
+markers = ["docker: requires Docker/Testcontainers"]
+
+[tool.ruff]
+line-length = 100
+lint.select = ["E","F","I","UP","N","B","S","ASYNC"]
+
+[tool.pyright]
+typeCheckingMode = "standard"
+reportMissingTypeStubs = false
+venvPath = ".venv"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.hatch.build.targets.sdist]
+include = ["app", "alembic", "pyproject.toml"]
