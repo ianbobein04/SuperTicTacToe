@@ -1,19 +1,20 @@
 from __future__ import annotations
-from pydantic import BaseModel, Field, conint
+from pydantic import BaseModel
 from typing import Optional, List, Literal
 
 Player = Literal["X", "O"]
 
 class GameCreate(BaseModel):
-    starting_player: Optional[Player] = Field(default="X")
+    # No starting_player; frontend owns turn order now.
+    pass
 
 class GameStateDTO(BaseModel):
     id: str
     board: List[Optional[Player]]
-    current_player: Player
     winner: Optional[Player]
     is_draw: bool
     status: str
 
 class MoveRequest(BaseModel):
     index: int
+    player: Player
